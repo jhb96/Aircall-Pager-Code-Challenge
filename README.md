@@ -60,6 +60,26 @@ python -m unittest discover -v -s ./tests -p "test_*.py"
 ```
 
 
+To start a local server, run the following command.
+First, install the dependencies by running the following command (only for server)
+
+```bash
+make install
+```
+or
+```bash
+pip install -r requirements.txt
+```
+
+
+```bash
+make start-server
+```
+or 
+```bash
+python -m uvicorn server:app --reload
+```
+
 
 
 
