@@ -7,6 +7,8 @@
 In the development of the Aircall Pager system, I had the option to employ an event-driven architecture, which is well-suited for systems where asynchrony and real-time handling of events are crucial. 
 However, I decided to adopt an architecture more aligned with ***Domain-Driven Design (DDD) principles***, emphasizing the importance of a model-centric approach that focuses on complex business logic and behavior. Besides, can be extended seamlessly to include a REST API interface where each endpoint can be mapped to a specific service handled method from pager_service.py (e.g. /alerts, /escalation_policies, /services, etc).
 
+![Diagram](/docs/solution_schema.png)
+
 
 #### DDD-Inspired Service-Oriented Architecture
 
