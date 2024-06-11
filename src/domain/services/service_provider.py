@@ -5,14 +5,16 @@ from application.interfaces.mail_service import IMailService
 from application.interfaces.monitored_service_repository import IMonitoredServiceRepository
 from application.interfaces.sms_service import ISMSService
 from application.interfaces.time_service import ITimerService
+from application.interfaces.slack_service import ISlackService
 
 EscalationPolicyServiceT = 'escalation'
 MailServiceT = 'mail'
 MonitoredServiceRepositoryT = 'repository'
 SMSServiceT = 'sms'
 TimeServiceT = 'time'
+SlackServiceT = 'slack'
 
-ServiceT = TypeVar('ServiceT', EscalationPolicyServiceT, MailServiceT, MonitoredServiceRepositoryT, SMSServiceT, TimeServiceT)
+ServiceT = TypeVar('ServiceT', EscalationPolicyServiceT, MailServiceT, MonitoredServiceRepositoryT, SMSServiceT, TimeServiceT, SlackServiceT)
 ServiceI = Union[IEscalationPolicyService, IMailService, IMonitoredServiceRepository, ISMSService, ITimerService]
 
 class ServiceProvider:

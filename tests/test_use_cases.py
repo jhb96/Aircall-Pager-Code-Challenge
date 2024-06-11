@@ -9,6 +9,7 @@ from domain.models.monitored_service import MonitoredService
 
 from domain.models.level import Level
 from domain.models.email_target import EmailTarget
+from domain.models.slack_target import SlackTarget
 from domain.models.sms_target import SMSTarget
 
 from domain.models.escalation_policy import EscalationPolicy
@@ -28,11 +29,10 @@ class TestServicePager(unittest.TestCase):
         # Create random MS
         self.service = MonitoredService('')
         # Mock adapters
-        console_mock = MagicMock()
-        alerting_mock = MagicMock()
         timer_mock = MagicMock()
         escalation_mock = MagicMock()
         email_mock = MagicMock()
+        slack_mock = MagicMock()
         sms_mock = MagicMock()
         repo_mock = MagicMock()
         
@@ -53,6 +53,7 @@ class TestServicePager(unittest.TestCase):
             escalation_system = escalation_mock,
             mail_system = email_mock,
             sms_system = sms_mock,
+            slack_system = slack_mock,
             repository = repo_mock
         )
         
@@ -245,7 +246,29 @@ class TestServicePager(unittest.TestCase):
         # Repo
         self.assertEqual(self.pager.repository.get.call_count, 2)
         
+    
+    def test_slack_notify(self):
+        """
+        Test Slack.
+        When send and alert and a target is a SlackTarget the service should notify the target
+        """
+
+        service = MonitoredService("service-6")
+        policy = EscalationPolicy([
+            Level(0, [SlackTarget('slack.com/aircall', '@errors')])
+        ])
         
+        self.__adapt_mocks(service, policy)
+        
+        self.pager.handle_alert(service.id, "Alert to Slack!")
+        
+        # Only 1 call (slack notify)
+        self.assertEqual(self.pager.slack_service.notify.call_count, 1)
+        # Check the call arguments
+        self.pager.slack_service.notify.assert_called_with(policy.levels[0].targets[0], service, "Alert to Slack!")
+        
+        
+
     
         
 if __name__ == "__main__":

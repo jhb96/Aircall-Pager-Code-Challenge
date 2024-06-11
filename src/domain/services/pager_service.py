@@ -1,6 +1,7 @@
 from application.interfaces.escalation_policy_service import IEscalationPolicyService
 from application.interfaces.mail_service import IMailService
 from application.interfaces.sms_service import ISMSService
+from application.interfaces.slack_service import ISlackService
 from application.interfaces.time_service import ITimerService
 from application.interfaces.monitored_service_repository import IMonitoredServiceRepository
 from domain.services.service_provider import ServiceProvider
@@ -16,6 +17,7 @@ class ServicePager:
         escalation_system: IEscalationPolicyService,
         mail_system: IMailService,
         sms_system: ISMSService,
+        slack_system: ISlackService,
         repository: IMonitoredServiceRepository
     ):
         # Services
@@ -24,6 +26,7 @@ class ServicePager:
         self.escalation_service = escalation_system
         self.mail_service = mail_system
         self.sms_service = sms_system
+        self.slack_service = slack_system
         self.__register_services()
         
         
@@ -112,4 +115,5 @@ class ServicePager:
         ServiceProvider.register('mail', self.mail_service)
         ServiceProvider.register('time', self.time_service)
         ServiceProvider.register('sms', self.sms_service)
+        ServiceProvider.register('slack', self.slack_service)
         
